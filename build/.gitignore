@@ -1,3 +1,4 @@
 # Ignore everything except .gitignore
 *
 !.gitignore
+.DS_Store

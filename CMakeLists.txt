@@ -9,7 +9,7 @@ if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/conaninfo.txt)
     list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 
-find_package(Boost 1.74 REQUIRED COMPONENTS system)
+find_package(Boost 1.74 REQUIRED COMPONENTS system unit_test_framework)
 
 set(LIB_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/websocket-client.cpp")
 
@@ -30,7 +30,8 @@ target_link_libraries(network-monitor
         Boost::Boost
 )
 
-set(TESTS_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/tests/websocket-client.cpp")
+set(TESTS_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/tests/websocket-client.cpp"
+                  "${CMAKE_CURRENT_SOURCE_DIR}/tests/main.cpp")
 
 add_executable(network-monitor-tests ${TESTS_SOURCES})
 

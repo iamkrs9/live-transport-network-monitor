@@ -4,11 +4,13 @@
 
 #include <iostream>
 #include <string>
+#include <boost/test/unit_test.hpp>
 
 using NetworkMonitor::WebSocketClient;
 
-int main()
-{
+BOOST_AUTO_TEST_SUITE(network_monitor);
+
+BOOST_AUTO_TEST_CASE(class_WebSocketClient) {
     // Connection targets
     const std::string url {"ltnm.learncppthroughprojects.com"};
     const std::string endpoint {"/echo"};
@@ -57,18 +59,11 @@ int main()
     ioc.run();
 
     // When we get here, the io_context::run function has run out of work to do.
-    bool ok {
-        connected &&
-        messageSent &&
-        messageReceived &&
-        messageMatches &&
-        disconnected
-    };
-    if (ok) {
-        std::cout << "OK" << std::endl;
-        return 0;
-    } else {
-        std::cerr << "Test failed" << std::endl;
-        return 1;
-    }
+    BOOST_CHECK(connected);
+    BOOST_CHECK(messageSent);
+    BOOST_CHECK(messageReceived);
+    BOOST_CHECK(messageMatches);
+    BOOST_CHECK(disconnected);
 }
+
+BOOST_AUTO_TEST_SUITE_END();
