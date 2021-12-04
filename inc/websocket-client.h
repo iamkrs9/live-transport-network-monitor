@@ -6,6 +6,7 @@
 #include <iostream>
 #include <boost/beast.hpp>
 #include <string>
+#include <boost/beast/ssl.hpp>
 
 using tcp = boost::asio::ip::tcp;
 namespace websocket = boost::beast::websocket;
@@ -19,14 +20,16 @@ private:
     std::string url_;
     std::string endpoint_;
     std::string port_;
-    websocket::stream<boost::beast::tcp_stream> ws_;
+    websocket::stream<boost::beast::ssl_stream<boost::beast::tcp_stream>> ws_;
     tcp::resolver resolver_;
     bool closed_{true};
     boost::beast::flat_buffer reader_{};
-
+    
     void OnResolve(boost::system::error_code ec, tcp::resolver::iterator resolverIt);
 
     void OnConnect(boost::system::error_code ec);
+
+    void OnTlsHandshake(const boost::system::error_code ec);
 
     void OnHandshake(boost::beast::error_code ec);
 
@@ -54,7 +57,8 @@ public:
         const std::string& url,
         const std::string& endpoint,
         const std::string& port,
-        boost::asio::io_context& ioc
+        boost::asio::io_context& ioc,
+        boost::asio::ssl::context &ctx
     );
 
     /*! \brief Destructor.

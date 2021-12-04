@@ -2,14 +2,18 @@ cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 
 project(network-monitor)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 # Dependencies
 # If dependencies are managed with conan, we prepend the current build folder
 # to the CMake module path, where CMake looks for dependencies.
+
 if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/conaninfo.txt)
     list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 
 find_package(Boost 1.74 REQUIRED COMPONENTS system unit_test_framework)
+find_package(Filesystem REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 set(LIB_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/websocket-client.cpp")
@@ -18,7 +22,7 @@ add_library(network-monitor STATIC ${LIB_SOURCES})
 
 target_compile_features(network-monitor
     PUBLIC
-        cxx_std_14
+        cxx_std_17
 )
 
 target_include_directories(network-monitor
@@ -51,4 +55,6 @@ target_link_libraries(network-monitor-tests
     PRIVATE
         network-monitor
         Boost::Boost
+        OpenSSL::OpenSSL
+        std::filesystem
 )

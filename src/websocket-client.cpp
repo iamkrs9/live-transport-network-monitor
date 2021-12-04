@@ -20,8 +20,9 @@ static void Log(const std::string &s, boost::system::error_code ec) {
 }
 
 WebSocketClient::WebSocketClient(const std::string &url, const std::string &endpoint,
-                                 const std::string &port, boost::asio::io_context &ioc) : url_{url},
-                                 endpoint_{endpoint}, port_{port}, ws_{boost::asio::make_strand(ioc)},
+                                 const std::string &port, boost::asio::io_context &ioc, 
+                                 boost::asio::ssl::context &ctx) : url_{url},
+                                 endpoint_{endpoint}, port_{port}, ws_{boost::asio::make_strand(ioc), ctx},
                                  resolver_{boost::asio::make_strand(ioc)} {}
 
 WebSocketClient::~WebSocketClient() = default;
@@ -49,9 +50,9 @@ void WebSocketClient::OnResolve(boost::system::error_code ec, tcp::resolver::ite
         }
         return;
     }
-    ws_.next_layer().expires_after(std::chrono::seconds(5));
+    ws_.next_layer().next_layer().expires_after(std::chrono::seconds(5));
 
-    ws_.next_layer().async_connect(*resolverIt, [this](auto ec){
+    ws_.next_layer().next_layer().async_connect(*resolverIt, [this](auto ec){
         std::cout << "OnResolve" << '\n';
         OnConnect(ec);
         }
@@ -66,12 +67,22 @@ void WebSocketClient::OnConnect(boost::system::error_code ec) {
         }
         return;
     }
-    ws_.next_layer().expires_never();
+    ws_.next_layer().next_layer().expires_never();
     ws_.set_option(websocket::stream_base::timeout::suggested(
             boost::beast::role_type::client
     ));
-    ws_.async_handshake(url_, endpoint_, [this](auto ec){
+    SSL_set_tlsext_host_name(ws_.next_layer().native_handle(), url_.c_str());
+
+    ws_.next_layer().async_handshake(boost::asio::ssl::stream_base::client, [this](auto ec){
         std::cout << "OnConnect" << '\n';
+        OnTlsHandshake(ec);
+        }
+    );
+}
+
+void WebSocketClient::OnTlsHandshake(const boost::system::error_code ec) {
+    ws_.async_handshake(url_, endpoint_, [this](auto ec){
+        std::cout << "OnTlsHandshake" << '\n';
         OnHandshake(ec);
         }
     );
