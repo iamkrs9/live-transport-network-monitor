@@ -14,12 +14,32 @@ BOOST_AUTO_TEST_CASE(cacert_pem) {
     BOOST_CHECK(std::filesystem::exists(TESTS_CACERT_PEM));
 }
 
+bool CheckResponse(const std::string& response)
+{
+    // We do not parse the whole message. We only check that it contains some
+    // expected items.
+    bool ok {true};
+    ok &= response.find("ERROR") != std::string::npos;
+    ok &= response.find("ValidationInvalidAuth") != std::string::npos;
+    return ok;
+}
+
 BOOST_AUTO_TEST_CASE(class_WebSocketClient) {
     // Connection targets
     const std::string url {"ltnm.learncppthroughprojects.com"};
-    const std::string endpoint {"/echo"};
+    const std::string endpoint {"/network-events"};
     const std::string port {"443"};
-    const std::string message {"Hello WebSocket"};
+    std::string response{};
+    std::stringstream ss{};
+    ss << "STOMP" << std::endl
+    << "accept-version:1.2" << std::endl
+    << "host:ltnm.learncppthroughprojects.com" << std::endl
+    << "login:name" << std::endl
+    << "password" << std::endl
+    << std::endl
+    << '\0';
+    
+    const std::string message {ss.str()};
     boost::asio::ssl::context ctx{boost::asio::ssl::context::tlsv12_client};
     ctx.load_verify_file(TESTS_CACERT_PEM);
 
@@ -53,10 +73,9 @@ BOOST_AUTO_TEST_CASE(class_WebSocketClient) {
     auto onReceive {[&client,
                       &onClose,
                       &messageReceived,
-                      &messageMatches,
-                      &message](auto ec, auto received) {
+                      &response](auto ec, auto received) {
         messageReceived = !ec;
-        messageMatches = message == received;
+        response = std::move(received);
         client.Close(onClose);
     }};
 
@@ -68,8 +87,8 @@ BOOST_AUTO_TEST_CASE(class_WebSocketClient) {
     BOOST_CHECK(connected);
     BOOST_CHECK(messageSent);
     BOOST_CHECK(messageReceived);
-    BOOST_CHECK(messageMatches);
     BOOST_CHECK(disconnected);
+    BOOST_CHECK(CheckResponse(response));
 }
 
 BOOST_AUTO_TEST_SUITE_END();
