@@ -1,0 +1,13 @@
+# ninja log v5
+0	134	1640124852077289538	build.ninja	652f8629ab6df689
+1	1031	1640108740989232388	CMakeFiles/network-monitor-tests.dir/tests/main.cpp.o	3728e238417cd9f1
+12	540	1640124154361328769	CMakeFiles/network-monitor.dir/src/file-downloader.cpp.o	2d2b772fe31a7384
+20	1280	1640123503815208520	CMakeFiles/network-monitor-tests.dir/tests/file-downloader.cpp.o	b9016d9c5aafacf1
+0	38372	1640108778293386840	CMakeFiles/network-monitor.dir/src/websocket-client.cpp.o	7205fa5f13ffb0c6
+12	3906	1640124745989183669	CMakeFiles/network-monitor-tests.dir/tests/websocket-client.cpp.o	bf8c866507777537
+0	2420	0	CMakeFiles/test.util	d098eb4846406e6d
+11	92	1640124826976052000	libnetwork-monitor.a	18adc02f168f9fe2
+92	409	1640124827288299561	network-monitor-tests	c934e6009489847b
+0	125	1640124852077289538	build.ninja	652f8629ab6df689
+11	90	1640124852179093000	libnetwork-monitor.a	d06e7c02eccdb84d
+90	408	1640124852492021591	network-monitor-tests	3e020d291eaf892e

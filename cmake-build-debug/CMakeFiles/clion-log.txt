@@ -1,11 +1,11 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja /Users/karanshah/Desktop/network-monitor
 CMake Error at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake:230 (message):
-  Could NOT find Boost (missing: Boost_INCLUDE_DIR system) (Required is at
-  least version "1.74")
+  Could NOT find Boost (missing: Boost_INCLUDE_DIR system
+  unit_test_framework) (Required is at least version "1.74")
 Call Stack (most recent call first):
   /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake:594 (_FPHSA_FAILURE_MESSAGE)
   /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.21/Modules/FindBoost.cmake:2345 (find_package_handle_standard_args)
-  CMakeLists.txt:11 (find_package)
+  CMakeLists.txt:15 (find_package)
 
 
 -- Configuring incomplete, errors occurred!

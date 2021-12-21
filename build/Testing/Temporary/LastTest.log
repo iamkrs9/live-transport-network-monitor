@@ -1,0 +1,44 @@
+Start testing: Dec 21 17:13 EST
+----------------------------------------------------------
+1/1 Testing: network-monitor-tests
+1/1 Test: network-monitor-tests
+Command: "/Users/karanshah/Desktop/network-monitor/build/network-monitor-tests"
+Directory: /Users/karanshah/Desktop/network-monitor/build
+"network-monitor-tests" start time: Dec 21 17:13 EST
+Output:
+----------------------------------------------------------
+Running 4 test cases...
+Connect
+OnResolve
+OnConnect
+OnTlsHandshake
+OnHandshake
+Send
+OnRead
+L
+Close
+L
+RUNNING IT
+Connect
+OnResolve
+OnConnect
+OnTlsHandshake
+OnHandshake
+Send
+OnRead
+L
+Close
+L
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   2.39 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[.*No errors detected]
+"network-monitor-tests" end time: Dec 21 17:13 EST
+"network-monitor-tests" time elapsed: 00:00:02
+----------------------------------------------------------
+
+End testing: Dec 21 17:13 EST

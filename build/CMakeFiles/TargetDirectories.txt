@@ -1,0 +1,4 @@
+/Users/karanshah/Desktop/network-monitor/build/CMakeFiles/network-monitor.dir
+/Users/karanshah/Desktop/network-monitor/build/CMakeFiles/network-monitor-tests.dir
+/Users/karanshah/Desktop/network-monitor/build/CMakeFiles/edit_cache.dir
+/Users/karanshah/Desktop/network-monitor/build/CMakeFiles/rebuild_cache.dir
